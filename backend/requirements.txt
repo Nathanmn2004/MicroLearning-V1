@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pdfplumber
+openai
+resend
+apscheduler
+jinja2
+python-dotenv
+python-multipart
+pydantic[email]
