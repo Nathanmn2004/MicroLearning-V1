@@ -1,40 +1,34 @@
-# Microaprendizagem
+# MicroAprendizagem
 
-Aplicação full stack para processar livros em PDF, gerar lições diárias com OpenAI e enviar emails automáticos para assinantes confirmados.
+Landing page e backend mínimo para vender uma assinatura de microlições baseadas em livros selecionados.
 
-## Backend
+## Estrutura inicial
 
-```bash
-cd backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+```text
+backend/   API FastAPI para health checks, webhooks e entregas
+frontend/  Landing page React com CTA para checkout da Cakto
+Livros/    PDFs internos usados para curadoria e geração de microlições
+Planos MD/ Documentos de planejamento
 ```
 
-Configure `backend/.env` com suas chaves reais antes de enviar emails ou gerar conteúdo com IA. Com os placeholders atuais, o backend roda em modo seco para email e gera lições fallback no processamento de PDFs.
+## Execução local
 
-Para processar um livro:
-
-```bash
-cd backend
-python scripts/process_book.py books\livro.pdf
-```
-
-## Frontend
+1. Copie `.env.example` para `.env`.
+2. Preencha as chaves necessárias.
+3. Suba os serviços:
 
 ```bash
-cd frontend
-npm install
-npm run dev
+docker compose up --build
 ```
 
-A SPA abre em `http://localhost:5173` e usa `VITE_API_URL` quando definido, ou `http://localhost:8000` por padrão.
+Serviços locais:
 
-## Fluxo principal
+```text
+Frontend:        http://localhost:5173
+Backend:         http://localhost:8000
+Health:          http://localhost:8000/api/health
+Supabase health: http://localhost:8000/api/health/supabase
+Redis:           localhost:6379
+```
 
-1. O usuário se inscreve em `/`.
-2. O backend cria o assinante e envia o link de confirmação para `/confirmed?token=...`.
-3. A página React confirma chamando `GET /api/confirm/{token}`.
-4. O scheduler envia a lição diária às 7h por padrão.
-5. O link de cancelamento abre `/unsubscribed?token=...` e chama `GET /api/unsubscribe/{token}`.
+Configure `VITE_CAKTO_CHECKOUT_URL` para apontar o botão de compra para o checkout da Cakto.

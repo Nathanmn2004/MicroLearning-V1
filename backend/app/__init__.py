@@ -1,2 +1,1 @@
-"""Microlearning backend package."""
-
+"""MicroAprendizagem backend package."""
