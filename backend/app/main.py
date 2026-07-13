@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health
+from app.api.routes import health, webhooks
 from app.core.config import settings
 from app.core.logging import configure_logging
 
@@ -25,6 +25,7 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(health.router, prefix=settings.api_prefix)
+    app.include_router(webhooks.router, prefix=settings.api_prefix)
 
     return app
 
