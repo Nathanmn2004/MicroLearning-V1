@@ -183,6 +183,9 @@ python scripts/apply_migrations.py
 python scripts/verify_schema.py
 python scripts/process_book.py --slug habitos-atomicos --dry-run
 python scripts/process_book.py --slug habitos-atomicos
+python scripts/send_lesson_email.py --to seu-email@exemplo.com --dry-run
+python scripts/send_lesson_email.py --to seu-email@exemplo.com
+python scripts/send_lesson_email.py --lesson-id UUID_DA_LICAO --active-subscribers
 arq app.workers.arq_settings.WorkerSettings
 ```
 
@@ -192,6 +195,14 @@ Processamento de livros:
 - Os metadados ficam em `Livros/metadata.json`.
 - `--dry-run` gera a microlicao com Gemini sem salvar no Supabase.
 - Sem `--dry-run`, o script cria/atualiza o livro e salva a microlicao como `review`.
+
+Envio por email:
+
+- Configure `RESEND_API_KEY` e `RESEND_FROM_EMAIL`.
+- O template usado fica em `backend/app/templates/emails/templateFull.html`.
+- `--dry-run` renderiza o HTML sem enviar.
+- `--to` envia um email de teste.
+- `--lesson-id ... --active-subscribers` envia a licao para assinantes com assinatura `active` e email habilitado.
 
 ## Observações
 

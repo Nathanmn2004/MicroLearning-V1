@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Microaprendizagem — Lição do Dia</title>
+<!--[if mso]>
+<noscript>
+<xml>
+<o:OfficeDocumentSettings>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+</noscript>
+<style>
+  table {border-collapse: collapse;}
+  .fallback-font { font-family: Georgia, 'Times New Roman', serif !important; }
+</style>
+<![endif]-->
+<style>
+  /* Reset básico */
+  body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+  body { margin: 0; padding: 0; width: 100% !important; height: 100% !important; }
+
+  /* Cores da marca — reaproveitadas como classes para facilitar dark mode */
+  .bg-outer   { background-color: #EFEAE0; }
+  .bg-header  { background-color: #12312A; }
+  .bg-card    { background-color: #FBF9F4; }
+  .bg-quote   { background-color: #16382F; }
+  .bg-reflect { background-color: #E6EEE7; }
+  .bg-footer  { background-color: #E7E2D5; }
+  .txt-dark   { color: #1E2A24; }
+  .txt-muted  { color: #6E7568; }
+  .txt-cream  { color: #F4F1E8; }
+  .txt-gold   { color: #A9834B; }
+  .txt-sage   { color: #9FC2A7; }
+
+  a.cta-link { color: #F4F1E8 !important; text-decoration: none; }
+
+  /* Responsivo */
+  @media only screen and (max-width: 600px) {
+    .email-container { width: 100% !important; }
+    .stack { display: block !important; width: 100% !important; text-align: left !important; }
+    .stack-right { text-align: left !important; margin-top: 10px !important; }
+    .fluid-pad { padding-left: 24px !important; padding-right: 24px !important; }
+    .book-title { font-size: 22px !important; line-height: 30px !important; }
+    .quote-text { font-size: 17px !important; line-height: 27px !important; }
+  }
+
+  /* Mantém as cores estáveis em clientes com dark mode automático */
+  @media (prefers-color-scheme: dark) {
+    .bg-outer   { background-color: #EFEAE0 !important; }
+    .bg-card    { background-color: #FBF9F4 !important; }
+    .bg-reflect { background-color: #E6EEE7 !important; }
+    .bg-footer  { background-color: #E7E2D5 !important; }
+    .txt-dark   { color: #1E2A24 !important; }
+    .txt-muted  { color: #6E7568 !important; }
+  }
+</style>
+</head>
+<body class="bg-outer" style="margin:0; padding:0; background-color:#EFEAE0;">
+
+  <!-- Texto de pré-visualização (some no corpo do email, aparece só na caixa de entrada) -->
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; opacity:0; font-size:1px; line-height:1px; color:#EFEAE0;">
+    {{PREHEADER_TEXT}} — sua lição de hoje leva {{TEMPO_LEITURA}} minutos.
+    &#8203;&#847; &#8203;&#847; &#8203;&#847; &#8203;&#847; &#8203;&#847; &#8203;&#847;
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-outer">
+    <tr>
+      <td align="center" style="padding: 32px 16px;">
+
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px;">
+
+          <!-- ===================== HEADER ===================== -->
+          <tr>
+            <td class="bg-header" style="background-color:#12312A; border-radius: 12px 12px 0 0; padding: 26px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="stack" valign="middle" style="font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: bold; letter-spacing: 0.5px; color: #F4F1E8;">
+                    micro<span style="color:#A9834B;">aprendizagem</span>
+                  </td>
+                  <td class="stack stack-right" valign="middle" align="right" style="font-family: Helvetica, Arial, sans-serif;">
+                    <span style="display:inline-block; padding: 6px 14px; border: 1px solid #3E6656; border-radius: 20px; font-size: 12px; letter-spacing: 0.5px; color: #9FC2A7;">
+                      DIA {{DIA_NUMERO}} DE LEITURA
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===================== HERO / LIVRO DO DIA ===================== -->
+          <tr>
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 34px 40px 24px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #A9834B; text-transform: uppercase; padding-bottom: 10px;">
+                    Hoje você estuda
+                  </td>
+                </tr>
+                <tr>
+                  <td class="book-title" style="font-family: Georgia, 'Times New Roman', serif; font-size: 26px; line-height: 33px; font-weight: bold; color: #1E2A24; padding-bottom: 6px;">
+                    {{LIVRO_TITULO}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #6E7568; padding-bottom: 14px;">
+                    {{LIVRO_AUTOR}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #6E7568; border-top: 1px solid #E4E0D3; padding-top: 14px;">
+                    Lição de hoje &nbsp;•&nbsp; {{TEMPO_LEITURA}} min &nbsp;•&nbsp; Capítulo {{CAPITULO_NUMERO}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===================== CITAÇÃO DO LIVRO ===================== -->
+          <tr>
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 10px 40px 30px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-quote" style="background-color:#16382F; border-radius: 10px;">
+                <tr>
+                  <td style="padding: 30px 32px 26px 32px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td width="42" valign="top">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="36" height="36" style="width:36px; height:36px; border-radius:18px; border: 1px solid #A9834B;">
+                            <tr>
+                              <td align="center" valign="middle" style="font-family: Georgia, serif; font-size: 22px; color: #A9834B; line-height: 1;">
+                                &#8221;
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="quote-text" style="padding-top: 16px; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 19px; line-height: 29px; color: #F4F1E8;">
+                          "{{CITACAO_TEXTO}}"
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right" style="padding-top: 16px; font-family: Helvetica, Arial, sans-serif; font-size: 12px; letter-spacing: 0.5px; color: #9FC2A7;">
+                          — {{CITACAO_REFERENCIA}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===================== O QUE ESSA PASSAGEM ENSINA ===================== -->
+          <tr>
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 4px 40px 32px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #A9834B; text-transform: uppercase; padding-bottom: 12px;">
+                    O que essa passagem ensina
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 15px; line-height: 25px; color: #1E2A24;">
+                    {{INSIGHT_TEXTO}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===================== PARA REFLETIR ===================== -->
+          <tr>
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 0 40px 32px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-reflect" style="background-color:#E6EEE7; border-left: 3px solid #2C6E49; border-radius: 4px;">
+                <tr>
+                  <td style="padding: 20px 24px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #2C6E49; text-transform: uppercase; padding-bottom: 8px;">
+                          Para refletir hoje
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 16px; line-height: 24px; color: #1E2A24;">
+                          {{REFLEXAO_PERGUNTA}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===================== CTA (BOTÃO À PROVA DE OUTLOOK) ===================== -->
+          <tr>
+            <td class="bg-card fluid-pad" align="center" style="background-color:#FBF9F4; padding: 0 40px 36px 40px;">
+              <!--[if mso]>
+              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="{{CTA_URL}}" style="height:48px;v-text-anchor:middle;width:260px;" arcsize="12%" fillcolor="#12312A" stroke="f">
+              <w:anchorlock/>
+              <center style="color:#F4F1E8;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:bold;">
+                Continuar a lição &#8594;
+              </center>
+              </v:roundrect>
+              <![endif]-->
+              <!--[if !mso]><!-- -->
+              <a href="{{CTA_URL}}" class="cta-link" style="background-color:#12312A; border-radius: 8px; color:#F4F1E8; display:inline-block; font-family: Helvetica, Arial, sans-serif; font-size:15px; font-weight:bold; line-height:48px; text-align:center; text-decoration:none; width:260px; -webkit-text-size-adjust:none;">
+                Continuar a lição &#8594;
+              </a>
+              <!--<![endif]-->
+            </td>
+          </tr>
+
+          <!-- ===================== SEQUÊNCIA / STREAK ===================== -->
+          <tr>
+            <td class="bg-card fluid-pad" align="center" style="background-color:#FBF9F4; padding: 0 40px 34px 40px; border-bottom: 1px solid #E4E0D3;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #6E7568; padding-bottom: 10px;" align="center">
+                    Sua sequência de leitura
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="font-family: Georgia, serif; font-size: 18px; letter-spacing: 4px; color: #2C6E49;">
+                    {{SEQUENCIA_PONTOS}}
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #A9834B; padding-top: 8px;">
+                    {{SEQUENCIA_DIAS}} dias seguidos — não quebre a corrente!
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ===================== FOOTER ===================== -->
+          <tr>
+            <td class="bg-footer fluid-pad" style="background-color:#E7E2D5; border-radius: 0 0 12px 12px; padding: 26px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; line-height: 20px; color: #6E7568; padding-bottom: 10px;">
+                    Você recebeu este email porque assina a <strong>microaprendizagem</strong>.<br>
+                    Uma lição de 15 a 20 minutos, direto de um livro, todos os dias.
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; padding-bottom: 10px;">
+                    <a href="{{PREFERENCES_URL}}" style="color:#2C6E49; text-decoration: underline;">Gerenciar preferências</a>
+                    &nbsp;&nbsp;•&nbsp;&nbsp;
+                    <a href="{{UNSUBSCRIBE_URL}}" style="color:#2C6E49; text-decoration: underline;">Cancelar inscrição</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #9A9686;">
+                    {{EMPRESA_NOME}} · {{EMPRESA_ENDERECO}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
