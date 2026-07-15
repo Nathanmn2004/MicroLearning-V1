@@ -124,6 +124,16 @@ def clean_json_response(text: str) -> dict[str, Any]:
     return json.loads(text)
 
 
+def strip_unsupported_symbols(value: Any) -> Any:
+    if isinstance(value, str):
+        return "".join(char for char in value if ord(char) <= 0xFFFF)
+    if isinstance(value, list):
+        return [strip_unsupported_symbols(item) for item in value]
+    if isinstance(value, dict):
+        return {key: strip_unsupported_symbols(item) for key, item in value.items()}
+    return value
+
+
 def generate_lesson(book: dict[str, Any], extracted_text: str) -> dict[str, Any]:
     if not settings.gemini_api_key:
         raise RuntimeError("GEMINI_API_KEY is not configured")
@@ -139,7 +149,7 @@ def generate_lesson(book: dict[str, Any], extracted_text: str) -> dict[str, Any]
     )
     if not response.text:
         raise RuntimeError("Gemini returned an empty response")
-    return clean_json_response(response.text)
+    return strip_unsupported_symbols(clean_json_response(response.text))
 
 
 def word_count(text: str) -> int:
