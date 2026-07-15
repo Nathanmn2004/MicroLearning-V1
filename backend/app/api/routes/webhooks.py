@@ -478,6 +478,14 @@ def _cancel_pending_deliveries(
     return len(response.data or [])
 
 
+@router.get("/cakto")
+async def cakto_webhook_status() -> dict[str, str]:
+    return {
+        "status": "ok",
+        "message": "Cakto webhook endpoint is ready. Send events with POST.",
+    }
+
+
 @router.post("/cakto")
 async def cakto_webhook(request: Request) -> dict[str, Any]:
     raw_body = await request.body()
