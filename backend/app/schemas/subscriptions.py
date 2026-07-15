@@ -11,6 +11,8 @@ class SubscriptionCreate(BaseModel):
     provider: str = "cakto"
     provider_customer_id: str | None = None
     provider_subscription_id: str | None = None
+    provider_product_id: str | None = None
+    provider_offer_id: str | None = None
     plan_name: str | None = None
     status: SubscriptionStatus = SubscriptionStatus.UNKNOWN
 
@@ -18,6 +20,8 @@ class SubscriptionCreate(BaseModel):
 class SubscriptionUpdate(BaseModel):
     provider_customer_id: str | None = None
     provider_subscription_id: str | None = None
+    provider_product_id: str | None = None
+    provider_offer_id: str | None = None
     plan_name: str | None = None
     status: SubscriptionStatus | None = None
     started_at: datetime | None = None

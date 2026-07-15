@@ -11,6 +11,10 @@ from app.repositories.supabase_client import get_supabase_admin_client
 
 router = APIRouter(prefix="/webhooks", tags=["webhooks"])
 
+INTEREST_EVENTS = {
+    "initiate_checkout",
+    "checkout_abandonment",
+}
 ACTIVE_EVENTS = {
     "purchase_approved",
     "subscription_created",
@@ -88,6 +92,8 @@ def _provider_event_id(payload: dict[str, Any]) -> str | None:
                 "id",
                 "event_id",
                 "webhook_id",
+                "checkout.id",
+                "checkout_id",
                 "transaction.id",
                 "transaction_id",
                 "sale.id",
@@ -95,6 +101,8 @@ def _provider_event_id(payload: dict[str, Any]) -> str | None:
                 "order.id",
                 "order_id",
                 "data.id",
+                "data.checkout.id",
+                "data.checkout_id",
                 "data.transaction.id",
                 "data.transaction_id",
                 "data.sale.id",
@@ -104,6 +112,15 @@ def _provider_event_id(payload: dict[str, Any]) -> str | None:
             ),
         )
     )
+
+
+def _dedupe_event_id(raw_body: bytes, payload: dict[str, Any]) -> str:
+    provider_event_id = _provider_event_id(payload)
+    if provider_event_id:
+        return provider_event_id
+
+    body_hash = hashlib.sha256(raw_body).hexdigest()
+    return f"payload_sha256:{body_hash}"
 
 
 def _customer_data(payload: dict[str, Any]) -> dict[str, str | None]:
@@ -187,6 +204,59 @@ def _customer_data(payload: dict[str, Any]) -> dict[str, str | None]:
     }
 
 
+def _product_data(payload: dict[str, Any]) -> dict[str, str | None]:
+    plan_name = _normalize_text(
+        _deep_get(
+            payload,
+            (
+                "product.name",
+                "product.title",
+                "offer.name",
+                "plan.name",
+                "data.product.name",
+                "data.product.title",
+                "data.offer.name",
+                "data.plan.name",
+            ),
+        )
+    )
+    product_id = _normalize_text(
+        _deep_get(
+            payload,
+            (
+                "product.id",
+                "product_id",
+                "data.product.id",
+                "data.product_id",
+            ),
+        )
+    )
+    offer_id = _normalize_text(
+        _deep_get(
+            payload,
+            (
+                "offer.id",
+                "offer_id",
+                "plan.id",
+                "plan_id",
+                "data.offer.id",
+                "data.offer_id",
+                "data.plan.id",
+                "data.plan_id",
+            ),
+        )
+    )
+    return {
+        "plan_name": plan_name,
+        "provider_product_id": product_id,
+        "provider_offer_id": offer_id,
+    }
+
+
+def _date_text(payload: dict[str, Any], paths: tuple[str, ...]) -> str | None:
+    return _normalize_text(_deep_get(payload, paths))
+
+
 def _subscription_data(payload: dict[str, Any], event_type: str) -> dict[str, Any]:
     subscription_id = _normalize_text(
         _deep_get(
@@ -203,36 +273,54 @@ def _subscription_data(payload: dict[str, Any], event_type: str) -> dict[str, An
             ),
         )
     )
-    plan_name = _normalize_text(
-        _deep_get(
-            payload,
-            (
-                "product.name",
-                "product.title",
-                "offer.name",
-                "plan.name",
-                "data.product.name",
-                "data.product.title",
-                "data.offer.name",
-                "data.plan.name",
-            ),
-        )
+    product = _product_data(payload)
+    started_at = _date_text(
+        payload,
+        (
+            "subscription.started_at",
+            "subscription.created_at",
+            "started_at",
+            "data.subscription.started_at",
+            "data.subscription.created_at",
+            "data.started_at",
+        ),
+    )
+    current_period_end = _date_text(
+        payload,
+        (
+            "subscription.current_period_end",
+            "subscription.next_billing_at",
+            "subscription.next_payment_at",
+            "current_period_end",
+            "next_billing_at",
+            "next_payment_at",
+            "data.subscription.current_period_end",
+            "data.subscription.next_billing_at",
+            "data.subscription.next_payment_at",
+            "data.current_period_end",
+            "data.next_billing_at",
+            "data.next_payment_at",
+        ),
     )
 
     if event_type in ACTIVE_EVENTS:
         status = "active"
+    elif event_type in INTEREST_EVENTS:
+        status = "pending"
     else:
         status = INACTIVE_EVENTS.get(event_type, "pending")
 
     data: dict[str, Any] = {
         "provider": "cakto",
         "provider_subscription_id": subscription_id,
-        "plan_name": plan_name,
+        **product,
         "status": status,
         "last_verified_at": _now_iso(),
     }
-    if event_type == "subscription_created":
-        data["started_at"] = _now_iso()
+    if event_type in {"purchase_approved", "subscription_created"}:
+        data["started_at"] = started_at or _now_iso()
+    if current_period_end:
+        data["current_period_end"] = current_period_end
     if status in {"cancelled", "refunded"}:
         data["cancelled_at"] = _now_iso()
     return data
@@ -367,6 +455,29 @@ def _upsert_subscription(
     return response.data[0]
 
 
+def _cancel_pending_deliveries(
+    client: Any,
+    subscriber: dict[str, Any] | None,
+    subscription: dict[str, Any] | None,
+) -> int:
+    if not subscriber or not subscription or subscription.get("status") == "active":
+        return 0
+
+    response = (
+        client.table("deliveries")
+        .update(
+            {
+                "status": "cancelled",
+                "error_message": "Subscription is not active",
+            }
+        )
+        .eq("subscriber_id", subscriber["id"])
+        .in_("status", ["pending", "scheduled"])
+        .execute()
+    )
+    return len(response.data or [])
+
+
 @router.post("/cakto")
 async def cakto_webhook(request: Request) -> dict[str, Any]:
     raw_body = await request.body()
@@ -383,18 +494,17 @@ async def cakto_webhook(request: Request) -> dict[str, Any]:
 
     client = get_supabase_admin_client()
     event_type = _event_type(payload)
-    provider_event_id = _provider_event_id(payload)
+    provider_event_id = _dedupe_event_id(raw_body, payload)
 
     existing_event = None
-    if provider_event_id:
-        response = (
-            client.table("payment_events")
-            .select("*")
-            .eq("provider_event_id", provider_event_id)
-            .limit(1)
-            .execute()
-        )
-        existing_event = response.data[0] if response.data else None
+    response = (
+        client.table("payment_events")
+        .select("*")
+        .eq("provider_event_id", provider_event_id)
+        .limit(1)
+        .execute()
+    )
+    existing_event = response.data[0] if response.data else None
 
     if existing_event and existing_event.get("processed"):
         return {
@@ -424,6 +534,7 @@ async def cakto_webhook(request: Request) -> dict[str, Any]:
         customer,
         _subscription_data(payload, event_type),
     )
+    cancelled_deliveries = _cancel_pending_deliveries(client, subscriber, subscription)
 
     update_data: dict[str, Any] = {
         "processed": True,
@@ -439,4 +550,6 @@ async def cakto_webhook(request: Request) -> dict[str, Any]:
         "event_type": event_type,
         "subscriber_id": subscriber["id"] if subscriber else None,
         "subscription_id": subscription["id"] if subscription else None,
+        "subscription_status": subscription["status"] if subscription else None,
+        "cancelled_deliveries": cancelled_deliveries,
     }
