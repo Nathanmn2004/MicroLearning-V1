@@ -34,7 +34,7 @@ class Settings(BaseSettings):
 
     ai_provider: str = "gemini"
     gemini_api_key: str | None = None
-    gemini_model: str = "gemini-1.5-pro"
+    gemini_model: str = "gemini-2.5-flash"
 
     cakto_checkout_url: str | None = None
     cakto_webhook_secret: str | None = None

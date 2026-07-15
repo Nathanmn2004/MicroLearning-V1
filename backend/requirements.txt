@@ -6,3 +6,5 @@ supabase==2.16.0
 arq==0.26.3
 redis==5.2.1
 psycopg[binary]==3.2.13
+google-genai==1.27.0
+PyMuPDF==1.26.3

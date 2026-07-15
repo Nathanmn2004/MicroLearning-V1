@@ -70,6 +70,7 @@ DATABASE_URL=
 DIRECT_URL=
 REDIS_URL=redis://redis:6379/0
 GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
 CAKTO_CHECKOUT_URL=
 CAKTO_WEBHOOK_SECRET=
 RESEND_API_KEY=
@@ -180,12 +181,21 @@ Backend:
 uvicorn app.main:app --reload
 python scripts/apply_migrations.py
 python scripts/verify_schema.py
+python scripts/process_book.py --slug habitos-atomicos --dry-run
+python scripts/process_book.py --slug habitos-atomicos
 arq app.workers.arq_settings.WorkerSettings
 ```
+
+Processamento de livros:
+
+- Os PDFs ficam em `Livros/`.
+- Os metadados ficam em `Livros/metadata.json`.
+- `--dry-run` gera a microlicao com Gemini sem salvar no Supabase.
+- Sem `--dry-run`, o script cria/atualiza o livro e salva a microlicao como `review`.
 
 ## Observações
 
 - O checkout é externo e deve ser configurado via Cakto.
 - As entregas por e-mail e WhatsApp dependem das credenciais de Resend e Evolution API.
-- A geração/apoio com IA está preparada para Gemini, mas depende de `GEMINI_API_KEY`.
+- A geração/apoio com IA usa Gemini e depende de `GEMINI_API_KEY`. O modelo padrão é `gemini-2.5-flash`.
 - A pasta `Livros/` é material interno de curadoria; a aplicação não deve expor ou redistribuir os PDFs.

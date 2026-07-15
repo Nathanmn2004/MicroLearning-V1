@@ -1,0 +1,191 @@
+[
+  {
+    "slug": "a-arte-da-guerra",
+    "title": "A Arte da Guerra",
+    "author": "Sun Tzu",
+    "category": "estrategia",
+    "file": "A Arte da Guerra.pdf"
+  },
+  {
+    "slug": "a-estrategia-do-oceano-azul",
+    "title": "A Estrategia do Oceano Azul",
+    "author": null,
+    "category": "negocios",
+    "file": "A Estrategia do Oceano Azul.pdf"
+  },
+  {
+    "slug": "a-psicologia-financeira",
+    "title": "A Psicologia Financeira",
+    "author": null,
+    "category": "financas",
+    "file": "A Psicologia Financeira.pdf"
+  },
+  {
+    "slug": "as-48-leis-do-poder",
+    "title": "As 48 Leis do Poder",
+    "author": null,
+    "category": "estrategia",
+    "file": "As 48 Leis do Poder.pdf"
+  },
+  {
+    "slug": "breve-historia-de-quase-tudo",
+    "title": "Breve Historia de Quase Tudo",
+    "author": null,
+    "category": "ciencia",
+    "file": "Breve Historia de Quase Tudo.pdf"
+  },
+  {
+    "slug": "como-fazer-amigos-e-influenciar-pessoas",
+    "title": "Como Fazer Amigos e Influenciar Pessoas",
+    "author": null,
+    "category": "comunicacao",
+    "file": "Como Fazer Amigos e Influenciar Pessoas.pdf"
+  },
+  {
+    "slug": "de-zero-a-um",
+    "title": "De Zero a Um",
+    "author": null,
+    "category": "negocios",
+    "file": "De Zero a Um.pdf"
+  },
+  {
+    "slug": "do-mil-ao-milhao",
+    "title": "Do Mil ao Milhao",
+    "author": null,
+    "category": "financas",
+    "file": "Do Mil ao Milhao.pdf"
+  },
+  {
+    "slug": "essencialismo",
+    "title": "Essencialismo",
+    "author": null,
+    "category": "produtividade",
+    "file": "Essencialismo.pdf"
+  },
+  {
+    "slug": "habitos-atomicos",
+    "title": "Habitos Atomicos",
+    "author": null,
+    "category": "habitos",
+    "file": "Habitos Atomicos.pdf"
+  },
+  {
+    "slug": "homo-deus",
+    "title": "Homo Deus",
+    "author": null,
+    "category": "historia",
+    "file": "Homo Deus - Uma Breve Historia do Amanha.pdf"
+  },
+  {
+    "slug": "marco-aurelio-meditacoes",
+    "title": "Meditacoes",
+    "author": "Marco Aurelio",
+    "category": "filosofia",
+    "file": "Marco Aurelio - Meditacoes.pdf"
+  },
+  {
+    "slug": "nada-pode-me-ferir",
+    "title": "Nada Pode Me Ferir",
+    "author": null,
+    "category": "desenvolvimento-pessoal",
+    "file": "Nada Pode Me Ferir.pdf"
+  },
+  {
+    "slug": "o-clube-das-5-da-manha",
+    "title": "O Clube das 5 da Manha",
+    "author": null,
+    "category": "produtividade",
+    "file": "O Clube das 5 da Manha.pdf"
+  },
+  {
+    "slug": "o-futuro-da-humanidade",
+    "title": "O Futuro da Humanidade",
+    "author": null,
+    "category": "ciencia",
+    "file": "O Futuro da Humanidade.pdf"
+  },
+  {
+    "slug": "o-homem-mais-rico-da-babilonia",
+    "title": "O Homem Mais Rico da Babilonia",
+    "author": null,
+    "category": "financas",
+    "file": "O Homem Mais Rico da Babilonia.pdf"
+  },
+  {
+    "slug": "o-milionario-mora-ao-lado",
+    "title": "O Milionario Mora ao Lado",
+    "author": null,
+    "category": "financas",
+    "file": "O Milionario Mora ao Lado.pdf"
+  },
+  {
+    "slug": "o-poder-do-habito",
+    "title": "O Poder do Habito",
+    "author": null,
+    "category": "habitos",
+    "file": "O Poder do Habito.pdf"
+  },
+  {
+    "slug": "os-segredos-da-mente-milionaria",
+    "title": "Os Segredos da Mente Milionaria",
+    "author": null,
+    "category": "financas",
+    "file": "Os Segredos da Mente Milionaria.pdf"
+  },
+  {
+    "slug": "pai-rico-pai-pobre",
+    "title": "Pai Rico Pai Pobre",
+    "author": null,
+    "category": "financas",
+    "file": "Pai Rico Pai Pobre.pdf"
+  },
+  {
+    "slug": "quem-pensa-enriquece",
+    "title": "Quem Pensa Enriquece",
+    "author": null,
+    "category": "financas",
+    "file": "Quem Pensa Enriquece.pdf"
+  },
+  {
+    "slug": "sapiens",
+    "title": "Sapiens",
+    "author": null,
+    "category": "historia",
+    "file": "Sapiens - Uma Breve Historia da Humanidade.pdf"
+  },
+  {
+    "slug": "seneca-cartas-de-um-estoico-volume-1",
+    "title": "Cartas de um Estoico - Volume 1",
+    "author": "Seneca",
+    "category": "filosofia",
+    "file": "Seneca - Cartas de um Estoico - Volume 1.pdf"
+  },
+  {
+    "slug": "superinteligencia",
+    "title": "Superinteligencia",
+    "author": null,
+    "category": "tecnologia",
+    "file": "Superinteligencia - Caminhos Perigos Estrategias.pdf"
+  },
+  {
+    "slug": "trabalhe-4-horas-por-semana",
+    "title": "Trabalhe 4 Horas Por Semana",
+    "author": null,
+    "category": "produtividade",
+    "file": "Trabalhe 4 Horas Por Semana.pdf"
+  },
+  {
+    "slug": "uma-breve-historia-do-mundo",
+    "title": "Uma Breve Historia do Mundo",
+    "author": null,
+    "category": "historia",
+    "file": "Uma Breve Historia do Mundo.pdf"
+  },
+  {
+    "slug": "uma-breve-historia-do-tempo",
+    "title": "Uma Breve Historia do Tempo",
+    "author": null,
+    "category": "ciencia",
+    "file": "Uma Breve Historia do Tempo.pdf"
+  }
+]
