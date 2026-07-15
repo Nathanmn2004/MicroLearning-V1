@@ -38,7 +38,7 @@ def sample_lesson() -> dict[str, Any]:
             "Esta e uma microlicao de teste enviada pelo backend da MicroAprendizagem.\n\n"
             "Se voce recebeu este email, o dominio, a API key e o template estao funcionando."
         ),
-        "estimated_reading_minutes": 2,
+        "estimated_reading_minutes": 15,
     }
 
 

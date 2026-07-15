@@ -92,7 +92,10 @@ Regras:
 - Cada citacao literal deve ter ate 90 caracteres.
 - Nao invente citacoes.
 - Se nao houver citacao curta confiavel no trecho, retorne "quotes": [].
-- O conteudo deve caber em uma leitura de 3 a 5 minutos.
+- O conteudo deve ser uma leitura completa de 15 a 20 minutos.
+- Escreva entre 2800 e 3600 palavras no campo "content_markdown".
+- Estruture a microlicao com titulo, introducao, 5 a 7 secoes explicativas, exemplos praticos, uma sintese final e um exercicio de aplicacao.
+- Use markdown simples com subtitulos "##".
 - O WhatsApp deve ser mais curto e direto que o markdown.
 - Nao use emojis.
 - Responda somente JSON valido, sem markdown fence.
@@ -144,6 +147,7 @@ def generate_lesson(book: dict[str, Any], extracted_text: str) -> dict[str, Any]
         contents=build_prompt(book, extracted_text),
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
+            max_output_tokens=12000,
             temperature=0.35,
         ),
     )
@@ -192,7 +196,7 @@ def save_lesson(client: Any, book_record: dict[str, Any], draft: dict[str, Any])
         "content_markdown": markdown,
         "whatsapp_content": whatsapp,
         "word_count": words,
-        "estimated_reading_minutes": max(1, round(words / 200)),
+        "estimated_reading_minutes": max(1, round(words / 180)),
         "status": "review",
     }
     lesson = client.table("lessons").insert(lesson_data).execute().data[0]
@@ -222,7 +226,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Process one book PDF into a draft micro-lesson.")
     parser.add_argument("--slug", required=True, help="Book slug from Livros/metadata.json")
     parser.add_argument("--max-pages", type=int, default=30)
-    parser.add_argument("--max-chars", type=int, default=45000)
+    parser.add_argument("--max-chars", type=int, default=90000)
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
