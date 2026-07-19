@@ -130,6 +130,16 @@ const faqs = [
     answer:
       "Sim. O cancelamento pode ser feito a qualquer momento pelo fluxo da assinatura.",
   },
+  {
+    question: "Vocês enviam o livro completo?",
+    answer:
+      "Não. A MicroAprendizagem envia sínteses educacionais autorais, com citações curtas e contextualizadas quando necessário. PDFs e livros completos não são distribuídos.",
+  },
+  {
+    question: "Como peço suporte ou correção dos meus dados?",
+    answer:
+      "Envie uma mensagem para suporte@microaprendizagem.com usando o mesmo e-mail informado no checkout.",
+  },
 ];
 
 const thankYouSteps = [

@@ -329,7 +329,7 @@ def _subscription_data(payload: dict[str, Any], event_type: str) -> dict[str, An
 def _signature_is_valid(raw_body: bytes, request: Request) -> bool:
     secret = settings.cakto_webhook_secret
     if not secret:
-        return True
+        return settings.environment.lower() in {"development", "local", "test"}
 
     candidates = [
         request.headers.get("x-cakto-webhook-secret"),

@@ -160,6 +160,12 @@ def word_count(text: str) -> int:
     return len(re.findall(r"\w+", text, flags=re.UNICODE))
 
 
+def quote_is_supported(quote_text: str, source_text: str) -> bool:
+    normalized_quote = normalize_whitespace(quote_text).casefold()
+    normalized_source = normalize_whitespace(source_text).casefold()
+    return normalized_quote in normalized_source
+
+
 def upsert_book(client: Any, book: dict[str, Any], page_count: int) -> dict[str, Any]:
     response = (
         client.table("books")
@@ -186,7 +192,12 @@ def upsert_book(client: Any, book: dict[str, Any], page_count: int) -> dict[str,
     return created.data[0]
 
 
-def save_lesson(client: Any, book_record: dict[str, Any], draft: dict[str, Any]) -> dict[str, Any]:
+def save_lesson(
+    client: Any,
+    book_record: dict[str, Any],
+    draft: dict[str, Any],
+    extracted_text: str,
+) -> dict[str, Any]:
     markdown = str(draft.get("content_markdown") or "").strip()
     whatsapp = str(draft.get("whatsapp_content") or "").strip()
     words = word_count(markdown)
@@ -208,6 +219,7 @@ def save_lesson(client: Any, book_record: dict[str, Any], draft: dict[str, Any])
         quote_text = str(quote.get("quote_text") or "").strip()
         if not quote_text or len(quote_text) > 90:
             continue
+        verified = quote_is_supported(quote_text, extracted_text)
         quote_rows.append(
             {
                 "lesson_id": lesson["id"],
@@ -215,7 +227,7 @@ def save_lesson(client: Any, book_record: dict[str, Any], draft: dict[str, Any])
                 "quote_text": quote_text,
                 "page_number": quote.get("page_number"),
                 "source_note": quote.get("source_note"),
-                "verified": False,
+                "verified": verified,
             }
         )
     if quote_rows:
@@ -247,7 +259,7 @@ def main() -> None:
 
     client = get_supabase_admin_client()
     book_record = upsert_book(client, book, page_count)
-    lesson = save_lesson(client, book_record, draft)
+    lesson = save_lesson(client, book_record, draft, extracted_text)
     print(f"Created lesson {lesson['id']} for {book['slug']} using {settings.gemini_model}")
 
 
