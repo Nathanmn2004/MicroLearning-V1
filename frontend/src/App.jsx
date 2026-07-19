@@ -132,6 +132,24 @@ const faqs = [
   },
 ];
 
+const thankYouSteps = [
+  {
+    icon: ShieldCheck,
+    title: "Pagamento em confirmação",
+    text: "A Cakto processa a compra e avisa nosso sistema automaticamente assim que o pagamento estiver aprovado.",
+  },
+  {
+    icon: Mail,
+    title: "Dados do checkout",
+    text: "As microlições serão enviadas para o e-mail informado na compra. Se houver telefone válido, o WhatsApp entra quando esse canal estiver ativo.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Primeira entrega",
+    text: "Com a assinatura ativa, o envio recorrente segue a programação diária configurada para sua conta.",
+  },
+];
+
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -185,6 +203,89 @@ function Header() {
   );
 }
 
+function ThankYouPage() {
+  return (
+    <main id="topo" className="site-page thank-page">
+      <header className="site-header">
+        <div className="header-shell">
+          <a className="brand-mark" href="/" aria-label="MicroAprendizagem">
+            <span className="brand-icon">
+              <BookOpen size={18} />
+            </span>
+            <span>MicroAprendizagem</span>
+          </a>
+          <a className="button button-light header-cta" href="mailto:suporte@microaprendizagem.com">
+            Falar com suporte
+          </a>
+        </div>
+      </header>
+
+      <section className="thank-hero">
+        <div className="container thank-grid">
+          <div className="thank-copy">
+            <p className="pill">Compra recebida</p>
+            <h1>Agora é só aguardar a confirmação.</h1>
+            <p>
+              Seu pagamento será validado pela Cakto. Assim que o webhook de
+              aprovação chegar, sua assinatura fica ativa e as microlições
+              começam a ser enviadas automaticamente.
+            </p>
+            <div className="thank-actions">
+              <a className="button button-dark" href="/">
+                Voltar para o site
+                <ArrowRight size={18} />
+              </a>
+              <a className="button button-light" href="mailto:suporte@microaprendizagem.com">
+                Preciso de ajuda
+              </a>
+            </div>
+          </div>
+
+          <article className="thank-card">
+            <div className="thank-card-icon">
+              <Check size={28} />
+            </div>
+            <h2>O que acontece agora</h2>
+            <div className="thank-step-list">
+              {thankYouSteps.map((step) => {
+                const Icon = step.icon;
+                return (
+                  <div key={step.title} className="thank-step">
+                    <Icon size={22} />
+                    <div>
+                      <h3>{step.title}</h3>
+                      <p>{step.text}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="thank-support">
+        <div className="container thank-support-grid">
+          <div>
+            <p className="section-kicker">Conferência rápida</p>
+            <h2>Use os mesmos dados informados no checkout.</h2>
+          </div>
+          <div className="thank-support-copy">
+            <p>
+              Se você digitou e-mail ou telefone incorreto, fale com o suporte
+              para ajustarmos antes das próximas entregas.
+            </p>
+            <p>
+              Os conteúdos são sínteses educacionais baseadas em livros
+              selecionados. PDFs e livros completos não são distribuídos.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function LessonMockup() {
   return (
     <div className="lesson-stage" aria-label="Exemplo visual de uma microlição">
@@ -223,6 +324,10 @@ function LessonMockup() {
 }
 
 function App() {
+  if (window.location.pathname === "/obrigado") {
+    return <ThankYouPage />;
+  }
+
   return (
     <main id="topo" className="site-page">
       <Header />
