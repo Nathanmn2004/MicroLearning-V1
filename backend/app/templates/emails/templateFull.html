@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
 <title>Microaprendizagem — Lição do Dia</title>
@@ -42,7 +44,7 @@
 
   a.cta-link { color: #F4F1E8 !important; text-decoration: none; }
 
-  /* Responsivo */
+  /* Responsivo — tablet e celular grande */
   @media only screen and (max-width: 600px) {
     .email-container { width: 100% !important; }
     .stack { display: block !important; width: 100% !important; text-align: left !important; }
@@ -50,6 +52,20 @@
     .fluid-pad { padding-left: 24px !important; padding-right: 24px !important; }
     .book-title { font-size: 22px !important; line-height: 30px !important; }
     .quote-text { font-size: 17px !important; line-height: 27px !important; }
+    .quote-pad { padding: 24px 20px 22px 20px !important; }
+    .reflect-pad { padding: 18px 18px !important; }
+    .point-title { font-size: 16px !important; line-height: 22px !important; }
+  }
+
+  /* Responsivo — celulares pequenos (largura reduzida de verdade) */
+  @media only screen and (max-width: 380px) {
+    .fluid-pad { padding-left: 16px !important; padding-right: 16px !important; }
+    .book-title { font-size: 20px !important; line-height: 27px !important; }
+    .quote-text { font-size: 16px !important; line-height: 25px !important; }
+    .quote-pad { padding: 20px 16px 18px 16px !important; }
+    .reflect-pad { padding: 16px 14px !important; }
+    .point-col { padding-left: 8px !important; }
+    .point-badge { width: 22px !important; }
   }
 
   /* Mantém as cores estáveis em clientes com dark mode automático */
@@ -75,7 +91,14 @@
     <tr>
       <td align="center" style="padding: 32px 16px;">
 
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:600px; max-width:600px;">
+        <!-- No Outlook desktop (que ignora max-width), força 600px fixo -->
+        <!--[if mso]>
+        <table role="presentation" width="600" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td>
+        <![endif]-->
+
+        <!-- Em todos os outros clientes (celular, tablet, webmail), a tabela é fluida
+             e encolhe até max-width:600px — é isso que garante a adaptação real de tela -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="email-container" style="width:100%; max-width:600px; margin:0 auto;">
 
           <!-- ===================== HEADER ===================== -->
           <tr>
@@ -128,7 +151,7 @@
             <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 10px 40px 30px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-quote" style="background-color:#16382F; border-radius: 10px;">
                 <tr>
-                  <td style="padding: 30px 32px 26px 32px;">
+                  <td class="quote-pad" style="padding: 30px 32px 26px 32px;">
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                       <tr>
                         <td width="42" valign="top">
@@ -160,18 +183,110 @@
             </td>
           </tr>
 
-          <!-- ===================== O QUE ESSA PASSAGEM ENSINA ===================== -->
+          <!-- ===================== PONTOS-CHAVE DA LIÇÃO =====================
+               Cada ## do conteúdo do livro vira um ponto numerado aqui embaixo.
+               O bloco de cada ponto (número + título + texto) é repetível: duplique
+               a <tr> inteira e ajuste TOPICO_N_TITULO / TOPICO_N_TEXTO para quantos
+               pontos a lição do dia tiver (normalmente entre 2 e 4). -->
           <tr>
-            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 4px 40px 32px 40px;">
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 4px 40px 6px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #A9834B; text-transform: uppercase; padding-bottom: 12px;">
-                    O que essa passagem ensina
+                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #A9834B; text-transform: uppercase;">
+                    Os pontos-chave de hoje
                   </td>
                 </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Ponto 01 -->
+          <tr>
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 18px 40px 4px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 15px; line-height: 25px; color: #1E2A24;">
-                    {{INSIGHT_TEXTO}}
+                  <td class="point-badge" width="34" valign="top" style="padding-top: 2px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="26" height="26" style="width:26px; height:26px; border-radius:13px; border: 1px solid #A9834B;">
+                      <tr>
+                        <td align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; color: #A9834B;">01</td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="point-col" valign="top" style="padding-left: 12px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="point-title" style="font-family: Georgia, 'Times New Roman', serif; font-size: 17px; font-weight: bold; color: #12312A; padding-bottom: 6px;">
+                          {{TOPICO_1_TITULO}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 23px; color: #1E2A24;">
+                          {{TOPICO_1_TEXTO}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Ponto 02 -->
+          <tr>
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 22px 40px 4px 40px; border-top: 1px solid #E4E0D3;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="point-badge" width="34" valign="top" style="padding-top: 2px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="26" height="26" style="width:26px; height:26px; border-radius:13px; border: 1px solid #A9834B;">
+                      <tr>
+                        <td align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; color: #A9834B;">02</td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="point-col" valign="top" style="padding-left: 12px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="point-title" style="font-family: Georgia, 'Times New Roman', serif; font-size: 17px; font-weight: bold; color: #12312A; padding-bottom: 6px;">
+                          {{TOPICO_2_TITULO}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 23px; color: #1E2A24;">
+                          {{TOPICO_2_TEXTO}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Ponto 03 -->
+          <tr>
+            <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 22px 40px 32px 40px; border-top: 1px solid #E4E0D3;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="point-badge" width="34" valign="top" style="padding-top: 2px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="26" height="26" style="width:26px; height:26px; border-radius:13px; border: 1px solid #A9834B;">
+                      <tr>
+                        <td align="center" valign="middle" style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; color: #A9834B;">03</td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="point-col" valign="top" style="padding-left: 12px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td class="point-title" style="font-family: Georgia, 'Times New Roman', serif; font-size: 17px; font-weight: bold; color: #12312A; padding-bottom: 6px;">
+                          {{TOPICO_3_TITULO}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 23px; color: #1E2A24;">
+                          {{TOPICO_3_TEXTO}}
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
               </table>
@@ -183,7 +298,7 @@
             <td class="bg-card fluid-pad" style="background-color:#FBF9F4; padding: 0 40px 32px 40px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-reflect" style="background-color:#E6EEE7; border-left: 3px solid #2C6E49; border-radius: 4px;">
                 <tr>
-                  <td style="padding: 20px 24px;">
+                  <td class="reflect-pad" style="padding: 20px 24px;">
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                       <tr>
                         <td style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 2px; color: #2C6E49; text-transform: uppercase; padding-bottom: 8px;">
@@ -202,48 +317,6 @@
             </td>
           </tr>
 
-          <!-- ===================== CTA (BOTÃO À PROVA DE OUTLOOK) ===================== -->
-          <tr>
-            <td class="bg-card fluid-pad" align="center" style="background-color:#FBF9F4; padding: 0 40px 36px 40px;">
-              <!--[if mso]>
-              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="{{CTA_URL}}" style="height:48px;v-text-anchor:middle;width:260px;" arcsize="12%" fillcolor="#12312A" stroke="f">
-              <w:anchorlock/>
-              <center style="color:#F4F1E8;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:bold;">
-                Continuar a lição &#8594;
-              </center>
-              </v:roundrect>
-              <![endif]-->
-              <!--[if !mso]><!-- -->
-              <a href="{{CTA_URL}}" class="cta-link" style="background-color:#12312A; border-radius: 8px; color:#F4F1E8; display:inline-block; font-family: Helvetica, Arial, sans-serif; font-size:15px; font-weight:bold; line-height:48px; text-align:center; text-decoration:none; width:260px; -webkit-text-size-adjust:none;">
-                Continuar a lição &#8594;
-              </a>
-              <!--<![endif]-->
-            </td>
-          </tr>
-
-          <!-- ===================== SEQUÊNCIA / STREAK ===================== -->
-          <tr>
-            <td class="bg-card fluid-pad" align="center" style="background-color:#FBF9F4; padding: 0 40px 34px 40px; border-bottom: 1px solid #E4E0D3;">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #6E7568; padding-bottom: 10px;" align="center">
-                    Sua sequência de leitura
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-family: Georgia, serif; font-size: 18px; letter-spacing: 4px; color: #2C6E49;">
-                    {{SEQUENCIA_PONTOS}}
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #A9834B; padding-top: 8px;">
-                    {{SEQUENCIA_DIAS}} dias seguidos — não quebre a corrente!
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
           <!-- ===================== FOOTER ===================== -->
           <tr>
             <td class="bg-footer fluid-pad" style="background-color:#E7E2D5; border-radius: 0 0 12px 12px; padding: 26px 40px;">
@@ -252,13 +325,6 @@
                   <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; line-height: 20px; color: #6E7568; padding-bottom: 10px;">
                     Você recebeu este email porque assina a <strong>microaprendizagem</strong>.<br>
                     Uma lição de 15 a 20 minutos, direto de um livro, todos os dias.
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px; padding-bottom: 10px;">
-                    <a href="{{PREFERENCES_URL}}" style="color:#2C6E49; text-decoration: underline;">Gerenciar preferências</a>
-                    &nbsp;&nbsp;•&nbsp;&nbsp;
-                    <a href="{{UNSUBSCRIBE_URL}}" style="color:#2C6E49; text-decoration: underline;">Cancelar inscrição</a>
                   </td>
                 </tr>
                 <tr>
@@ -271,6 +337,10 @@
           </tr>
 
         </table>
+
+        <!--[if mso]>
+        </td></tr></table>
+        <![endif]-->
 
       </td>
     </tr>

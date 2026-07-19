@@ -70,7 +70,7 @@ DATABASE_URL=
 DIRECT_URL=
 REDIS_URL=redis://redis:6379/0
 GEMINI_API_KEY=
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.5-flash
 CAKTO_CHECKOUT_URL=
 CAKTO_WEBHOOK_SECRET=
 RESEND_API_KEY=
@@ -208,5 +208,5 @@ Envio por email:
 
 - O checkout é externo e deve ser configurado via Cakto.
 - As entregas por e-mail e WhatsApp dependem das credenciais de Resend e Evolution API.
-- A geração/apoio com IA usa Gemini e depende de `GEMINI_API_KEY`. O modelo padrão é `gemini-2.5-flash`.
+- A geração/apoio com IA usa Gemini e depende de `GEMINI_API_KEY`. O modelo padrão é `gemini-3.5-flash`.
 - A pasta `Livros/` é material interno de curadoria; a aplicação não deve expor ou redistribuir os PDFs.

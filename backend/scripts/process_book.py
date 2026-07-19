@@ -197,8 +197,10 @@ def save_lesson(client: Any, book_record: dict[str, Any], draft: dict[str, Any])
         "whatsapp_content": whatsapp,
         "word_count": words,
         "estimated_reading_minutes": max(1, round(words / 180)),
-        "status": "review",
+        "status": settings.generated_lesson_status,
     }
+    if settings.generated_lesson_status == "approved":
+        lesson_data["approved_at"] = datetime.now(UTC).isoformat()
     lesson = client.table("lessons").insert(lesson_data).execute().data[0]
 
     quote_rows = []

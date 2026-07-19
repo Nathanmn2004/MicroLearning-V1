@@ -34,7 +34,7 @@ class Settings(BaseSettings):
 
     ai_provider: str = "gemini"
     gemini_api_key: str | None = None
-    gemini_model: str = "gemini-2.5-flash"
+    gemini_model: str = "gemini-3.5-flash"
 
     cakto_checkout_url: str | None = None
     cakto_webhook_secret: str | None = None
@@ -48,12 +48,36 @@ class Settings(BaseSettings):
     evolution_instance: str | None = None
     evolution_webhook_secret: str | None = None
 
+    content_delivery_frequency: str = "daily"
+    content_delivery_time: str = "09:00"
+    content_delivery_timezone: str = "America/Sao_Paulo"
+    content_delivery_channels: str = "email"
+    content_delivery_lesson_statuses: str = "review,approved"
+    content_delivery_batch_limit: int = 50
+    generated_lesson_status: str = "approved"
+
     @property
     def cors_origins(self) -> list[str]:
         return [
             origin.strip()
             for origin in self.backend_cors_origins.split(",")
             if origin.strip()
+        ]
+
+    @property
+    def delivery_channels(self) -> list[str]:
+        return [
+            channel.strip().lower()
+            for channel in self.content_delivery_channels.split(",")
+            if channel.strip()
+        ]
+
+    @property
+    def delivery_lesson_statuses(self) -> list[str]:
+        return [
+            status.strip().lower()
+            for status in self.content_delivery_lesson_statuses.split(",")
+            if status.strip()
         ]
 
 
