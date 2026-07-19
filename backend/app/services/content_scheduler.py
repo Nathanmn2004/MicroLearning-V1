@@ -190,12 +190,17 @@ class ContentScheduler:
     def next_lesson_for(
         self,
         *,
+        subscriber: dict[str, Any],
         subscriber_id: str,
         channel: str,
         eligible_lessons: list[dict[str, Any]],
     ) -> dict[str, Any] | None:
         blocked_lesson_ids = self.delivered_lesson_ids(subscriber_id, channel)
+        subscriber_track = subscriber.get("content_track") or "todos"
         for lesson in eligible_lessons:
+            lesson_track = lesson.get("content_track") or "todos"
+            if subscriber_track != "todos" and lesson_track != subscriber_track:
+                continue
             if lesson["id"] not in blocked_lesson_ids:
                 return lesson
         return None
@@ -237,6 +242,7 @@ class ContentScheduler:
                     continue
 
                 lesson = self.next_lesson_for(
+                    subscriber=subscriber,
                     subscriber_id=subscriber_id,
                     channel=channel,
                     eligible_lessons=lessons,

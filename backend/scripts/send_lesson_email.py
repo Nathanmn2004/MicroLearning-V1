@@ -67,7 +67,11 @@ def get_lesson_payload(client: Any, lesson_id: str) -> tuple[dict[str, Any], dic
     return lesson, book, quote
 
 
-def get_active_subscribers(client: Any, limit: int) -> list[dict[str, Any]]:
+def get_active_subscribers(
+    client: Any,
+    limit: int,
+    lesson: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     subscriptions = (
         client.table("subscriptions")
         .select("subscriber_id")
@@ -82,9 +86,16 @@ def get_active_subscribers(client: Any, limit: int) -> list[dict[str, Any]]:
         if row.get("subscriber_id")
     }
     subscribers: list[dict[str, Any]] = []
+    lesson_track = (lesson or {}).get("content_track") or "todos"
     for subscriber_id in subscriber_ids:
         subscriber = get_record(client, "subscribers", subscriber_id)
-        if subscriber.get("email") and subscriber.get("email_enabled", True):
+        subscriber_track = subscriber.get("content_track") or "todos"
+        track_matches = subscriber_track == "todos" or lesson_track == "todos" or subscriber_track == lesson_track
+        if (
+            subscriber.get("email")
+            and subscriber.get("email_enabled", True)
+            and track_matches
+        ):
             subscribers.append(subscriber)
     return subscribers
 
@@ -163,7 +174,7 @@ def main() -> None:
     if args.active_subscribers:
         recipients.extend(
             (subscriber["email"], subscriber["id"])
-            for subscriber in get_active_subscribers(client, args.limit)
+            for subscriber in get_active_subscribers(client, args.limit, lesson)
         )
 
     if args.dry_run:

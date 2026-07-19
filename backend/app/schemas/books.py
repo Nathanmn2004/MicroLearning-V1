@@ -10,6 +10,7 @@ class BookBase(BaseModel):
     author: str | None = None
     description: str | None = None
     category: str | None = None
+    content_track: str = "todos"
     language: str = "pt-BR"
     file_path: str
     enabled: bool = True
@@ -24,6 +25,7 @@ class BookUpdate(BaseModel):
     author: str | None = None
     description: str | None = None
     category: str | None = None
+    content_track: str | None = None
     language: str | None = None
     file_path: str | None = None
     page_count: int | None = None

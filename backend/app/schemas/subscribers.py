@@ -11,6 +11,7 @@ class SubscriberCreate(BaseModel):
     preferred_channel: str = "both"
     whatsapp_enabled: bool = True
     email_enabled: bool = True
+    content_track: str = "todos"
     source: str = "cakto"
     provider_customer_id: str | None = None
 
@@ -22,6 +23,7 @@ class SubscriberUpdate(BaseModel):
     preferred_channel: str | None = None
     whatsapp_enabled: bool | None = None
     email_enabled: bool | None = None
+    content_track: str | None = None
     provider_customer_id: str | None = None
 
 

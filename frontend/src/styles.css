@@ -257,6 +257,121 @@ a:focus-visible {
   line-height: 1.65;
 }
 
+.track-selector {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+  margin-top: 30px;
+}
+
+.track-selector-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.track-selector-heading span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.track-selector-heading strong {
+  color: var(--ink);
+}
+
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.track-option {
+  position: relative;
+  display: grid;
+  min-height: 118px;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  border: 1px solid rgba(22, 61, 50, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.74);
+  padding: 15px;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease,
+    background-color 200ms ease;
+}
+
+.track-option:hover {
+  transform: translateY(-2px);
+  border-color: rgba(22, 61, 50, 0.36);
+  box-shadow: 0 16px 28px rgba(22, 22, 22, 0.1);
+}
+
+.track-option:focus-visible {
+  outline: 3px solid rgba(199, 168, 107, 0.7);
+  outline-offset: 3px;
+}
+
+.track-option.selected {
+  border-color: rgba(22, 61, 50, 0.72);
+  background: var(--green-soft);
+}
+
+.track-icon {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--green);
+  color: var(--white);
+}
+
+.track-copy {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.track-copy strong {
+  padding-right: 26px;
+  color: var(--green);
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.track-copy span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.track-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--white);
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1244,6 +1359,18 @@ a:focus-visible {
 
   .hero-subtitle {
     font-size: 1.05rem;
+  }
+
+  .track-selector {
+    max-width: none;
+  }
+
+  .track-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .track-option {
+    min-height: auto;
   }
 
   .hero-actions,

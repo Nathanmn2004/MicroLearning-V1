@@ -37,6 +37,9 @@ class Settings(BaseSettings):
     gemini_model: str = "gemini-3.5-flash"
 
     cakto_checkout_url: str | None = None
+    cakto_checkout_url_mente_desenvolvimento_pessoal: str | None = None
+    cakto_checkout_url_carreira_negocios_dinheiro: str | None = None
+    cakto_checkout_url_historia_sociedade: str | None = None
     cakto_webhook_secret: str | None = None
 
     resend_api_key: str | None = None
@@ -55,6 +58,13 @@ class Settings(BaseSettings):
     content_delivery_lesson_statuses: str = "review,approved"
     content_delivery_batch_limit: int = 50
     generated_lesson_status: str = "approved"
+
+    valid_content_tracks: str = (
+        "todos,"
+        "mente-desenvolvimento-pessoal,"
+        "carreira-negocios-dinheiro,"
+        "historia-sociedade"
+    )
 
     @property
     def cors_origins(self) -> list[str]:
@@ -78,6 +88,14 @@ class Settings(BaseSettings):
             status.strip().lower()
             for status in self.content_delivery_lesson_statuses.split(",")
             if status.strip()
+        ]
+
+    @property
+    def content_tracks(self) -> list[str]:
+        return [
+            track.strip().lower()
+            for track in self.valid_content_tracks.split(",")
+            if track.strip()
         ]
 
 

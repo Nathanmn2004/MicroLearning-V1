@@ -19,14 +19,66 @@ import {
   X,
 } from "lucide-react";
 
-const checkoutUrl =
-  import.meta.env.VITE_CAKTO_CHECKOUT_URL || "https://pay.cakto.com.br/";
+const checkoutUrls = {
+  todos:
+    import.meta.env.VITE_CAKTO_CHECKOUT_URL ||
+    "https://pay.cakto.com.br/qgza2fd_977495",
+  "mente-desenvolvimento-pessoal":
+    import.meta.env.VITE_CAKTO_CHECKOUT_URL_MENTE_DESENVOLVIMENTO_PESSOAL ||
+    "https://pay.cakto.com.br/qgza2fd_989199",
+  "carreira-negocios-dinheiro":
+    import.meta.env.VITE_CAKTO_CHECKOUT_URL_CARREIRA_NEGOCIOS_DINHEIRO ||
+    "https://pay.cakto.com.br/qgza2fd_989202",
+  "historia-sociedade":
+    import.meta.env.VITE_CAKTO_CHECKOUT_URL_HISTORIA_SOCIEDADE ||
+    "https://pay.cakto.com.br/qgza2fd_989204",
+};
 
 const navLinks = [
   { label: "Como funciona", href: "#como-funciona" },
+  { label: "Trilhas", href: "#trilhas" },
   { label: "Benefícios", href: "#beneficios" },
   { label: "Planos", href: "#planos" },
   { label: "Perguntas", href: "#perguntas" },
+];
+
+const contentTracks = [
+  {
+    id: "todos",
+    icon: Layers,
+    title: "Todos os temas",
+    shortTitle: "Todos",
+    description:
+      "Mistura curada de desenvolvimento pessoal, negócios, dinheiro, história e sociedade.",
+    checkoutUrl: checkoutUrls.todos,
+  },
+  {
+    id: "mente-desenvolvimento-pessoal",
+    icon: Brain,
+    title: "Mente & Desenvolvimento Pessoal",
+    shortTitle: "Mente",
+    description:
+      "Psicologia, hábitos, produtividade, inteligência emocional e autoajuda em geral.",
+    checkoutUrl: checkoutUrls["mente-desenvolvimento-pessoal"],
+  },
+  {
+    id: "carreira-negocios-dinheiro",
+    icon: Target,
+    title: "Carreira, Negócios & Dinheiro",
+    shortTitle: "Carreira",
+    description:
+      "Liderança, empreendedorismo, marketing, investimentos e educação financeira.",
+    checkoutUrl: checkoutUrls["carreira-negocios-dinheiro"],
+  },
+  {
+    id: "historia-sociedade",
+    icon: CalendarDays,
+    title: "História & Sociedade",
+    shortTitle: "História",
+    description:
+      "Eventos históricos, biografias, política, cultura, guerras e civilizações.",
+    checkoutUrl: checkoutUrls["historia-sociedade"],
+  },
 ];
 
 const readerSignals = [
@@ -160,7 +212,7 @@ const thankYouSteps = [
   },
 ];
 
-function Header() {
+function Header({ checkoutUrl }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -210,6 +262,50 @@ function Header() {
         </div>
       )}
     </header>
+  );
+}
+
+function TrackSelector({ selectedTrackId, onSelect }) {
+  const selectedTrack =
+    contentTracks.find((track) => track.id === selectedTrackId) || contentTracks[0];
+
+  return (
+    <div id="trilhas" className="track-selector" aria-label="Escolha sua trilha">
+      <div className="track-selector-heading">
+        <span>Escolha sua trilha</span>
+        <strong>{selectedTrack.title}</strong>
+      </div>
+      <div className="track-grid" role="radiogroup" aria-label="Trilha de conteúdo">
+        {contentTracks.map((track) => {
+          const Icon = track.icon;
+          const isSelected = selectedTrackId === track.id;
+
+          return (
+            <button
+              key={track.id}
+              className={`track-option${isSelected ? " selected" : ""}`}
+              type="button"
+              role="radio"
+              aria-checked={isSelected}
+              onClick={() => onSelect(track.id)}
+            >
+              <span className="track-icon">
+                <Icon size={20} />
+              </span>
+              <span className="track-copy">
+                <strong>{track.shortTitle}</strong>
+                <span>{track.description}</span>
+              </span>
+              {isSelected && (
+                <span className="track-check" aria-hidden="true">
+                  <Check size={16} />
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -338,9 +434,14 @@ function App() {
     return <ThankYouPage />;
   }
 
+  const [selectedTrackId, setSelectedTrackId] = useState("todos");
+  const selectedTrack =
+    contentTracks.find((track) => track.id === selectedTrackId) || contentTracks[0];
+  const selectedCheckoutUrl = selectedTrack.checkoutUrl;
+
   return (
     <main id="topo" className="site-page">
-      <Header />
+      <Header checkoutUrl={selectedCheckoutUrl} />
 
       <section className="hero-section">
         <div className="container hero-grid">
@@ -355,8 +456,13 @@ function App() {
               extraídos de grandes livros.
             </p>
 
+            <TrackSelector
+              selectedTrackId={selectedTrackId}
+              onSelect={setSelectedTrackId}
+            />
+
             <div className="hero-actions">
-              <a className="button button-dark" href={checkoutUrl}>
+              <a className="button button-dark" href={selectedCheckoutUrl}>
                 Quero aprender todos os dias
                 <ArrowRight size={18} />
               </a>
@@ -481,7 +587,7 @@ function App() {
                 <Check size={18} /> Aplicação prática
               </li>
             </ul>
-            <a className="button button-gold" href={checkoutUrl}>
+            <a className="button button-gold" href={selectedCheckoutUrl}>
               Quero receber as lições
             </a>
           </div>
@@ -610,7 +716,7 @@ function App() {
                   <Check size={17} /> WhatsApp, e-mail e histórico
                 </li>
               </ul>
-              <a className="button button-dark" href={checkoutUrl}>
+              <a className="button button-dark" href={selectedCheckoutUrl}>
                 Comecar agora
               </a>
             </article>
@@ -628,7 +734,7 @@ function App() {
                   <Check size={17} /> Versão por e-mail
                 </li>
               </ul>
-              <a className="button button-light" href={checkoutUrl}>
+              <a className="button button-light" href={selectedCheckoutUrl}>
                 Comecar agora
               </a>
             </article>
@@ -670,7 +776,7 @@ function App() {
               horas livres. Não precisa terminar um livro inteiro hoje.
             </p>
           </div>
-          <a className="button button-dark" href={checkoutUrl}>
+          <a className="button button-dark" href={selectedCheckoutUrl}>
             Quero aprender todos os dias
             <ArrowRight size={18} />
           </a>

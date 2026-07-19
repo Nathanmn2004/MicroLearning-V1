@@ -29,6 +29,29 @@ INACTIVE_EVENTS = {
     "chargeback": "refunded",
 }
 
+CONTENT_TRACK_ALIASES = {
+    "todos": "todos",
+    "all": "todos",
+    "principal": "todos",
+    "977495": "todos",
+    "mente": "mente-desenvolvimento-pessoal",
+    "desenvolvimento": "mente-desenvolvimento-pessoal",
+    "desenvolvimento-pessoal": "mente-desenvolvimento-pessoal",
+    "mente-desenvolvimento-pessoal": "mente-desenvolvimento-pessoal",
+    "989199": "mente-desenvolvimento-pessoal",
+    "carreira": "carreira-negocios-dinheiro",
+    "negocios": "carreira-negocios-dinheiro",
+    "negócios": "carreira-negocios-dinheiro",
+    "dinheiro": "carreira-negocios-dinheiro",
+    "carreira-negocios-dinheiro": "carreira-negocios-dinheiro",
+    "989202": "carreira-negocios-dinheiro",
+    "historia": "historia-sociedade",
+    "história": "historia-sociedade",
+    "sociedade": "historia-sociedade",
+    "historia-sociedade": "historia-sociedade",
+    "989204": "historia-sociedade",
+}
+
 
 def _now_iso() -> str:
     return datetime.now(UTC).isoformat()
@@ -52,6 +75,32 @@ def _normalize_phone(value: Any) -> str | None:
         return None
     phone = "".join(char for char in text if char.isdigit() or char == "+")
     return phone or None
+
+
+def _slug_text(value: Any) -> str | None:
+    text = _normalize_text(value)
+    if not text:
+        return None
+    text = text.lower()
+    replacements = {
+        "á": "a",
+        "à": "a",
+        "ã": "a",
+        "â": "a",
+        "é": "e",
+        "ê": "e",
+        "í": "i",
+        "ó": "o",
+        "ô": "o",
+        "õ": "o",
+        "ú": "u",
+        "ç": "c",
+    }
+    for source, target in replacements.items():
+        text = text.replace(source, target)
+    text = "".join(char if char.isalnum() else "-" for char in text)
+    text = "-".join(part for part in text.split("-") if part)
+    return text or None
 
 
 def _deep_get(data: dict[str, Any], paths: tuple[str, ...]) -> Any:
@@ -202,6 +251,66 @@ def _customer_data(payload: dict[str, Any]) -> dict[str, str | None]:
         "phone": phone,
         "provider_customer_id": customer_id,
     }
+
+
+def _content_track(payload: dict[str, Any]) -> str:
+    explicit_track = _deep_get(
+        payload,
+        (
+            "content_track",
+            "track",
+            "metadata.content_track",
+            "metadata.track",
+            "custom_fields.content_track",
+            "custom_fields.track",
+            "data.content_track",
+            "data.track",
+            "data.metadata.content_track",
+            "data.metadata.track",
+            "data.custom_fields.content_track",
+            "data.custom_fields.track",
+        ),
+    )
+    candidates = [
+        explicit_track,
+        _deep_get(
+            payload,
+            (
+                "checkout.url",
+                "checkout_url",
+                "data.checkout.url",
+                "data.checkout_url",
+                "product.name",
+                "product.title",
+                "product.id",
+                "product_id",
+                "offer.name",
+                "offer.id",
+                "offer_id",
+                "plan.name",
+                "plan.id",
+                "plan_id",
+                "data.product.name",
+                "data.product.title",
+                "data.product.id",
+                "data.product_id",
+                "data.offer.name",
+                "data.offer.id",
+                "data.offer_id",
+                "data.plan.name",
+                "data.plan.id",
+                "data.plan_id",
+            ),
+        ),
+    ]
+    for candidate in candidates:
+        slug = _slug_text(candidate)
+        if not slug:
+            continue
+        for alias, track in CONTENT_TRACK_ALIASES.items():
+            if alias in slug:
+                return track
+    return "todos"
 
 
 def _product_data(payload: dict[str, Any]) -> dict[str, str | None]:
@@ -387,8 +496,12 @@ def _upsert_subscriber(client: Any, customer: dict[str, str | None]) -> dict[str
     existing = _find_existing_subscriber(client, customer)
     data = {key: value for key, value in customer.items() if value}
     data["source"] = "cakto"
+    incoming_track = customer.get("content_track") or "todos"
 
     if existing:
+        existing_track = existing.get("content_track") or "todos"
+        if incoming_track != "todos" or existing_track == "todos":
+            data["content_track"] = incoming_track
         response = (
             client.table("subscribers")
             .update(data)
@@ -397,6 +510,7 @@ def _upsert_subscriber(client: Any, customer: dict[str, str | None]) -> dict[str
         )
         return response.data[0]
 
+    data["content_track"] = incoming_track
     response = client.table("subscribers").insert(data).execute()
     return response.data[0]
 
@@ -535,6 +649,7 @@ async def cakto_webhook(request: Request) -> dict[str, Any]:
         payment_event = response.data[0]
 
     customer = _customer_data(payload)
+    customer["content_track"] = _content_track(payload)
     subscriber = _upsert_subscriber(client, customer)
     subscription = _upsert_subscription(
         client,
@@ -559,5 +674,6 @@ async def cakto_webhook(request: Request) -> dict[str, Any]:
         "subscriber_id": subscriber["id"] if subscriber else None,
         "subscription_id": subscription["id"] if subscription else None,
         "subscription_status": subscription["status"] if subscription else None,
+        "content_track": subscriber.get("content_track") if subscriber else None,
         "cancelled_deliveries": cancelled_deliveries,
     }

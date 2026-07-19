@@ -50,6 +50,17 @@ def find_book(slug: str) -> dict[str, Any]:
     raise RuntimeError(f"Book slug not found in metadata: {slug}")
 
 
+def find_books_by_track(content_track: str) -> list[dict[str, Any]]:
+    books = [
+        book
+        for book in load_metadata()
+        if book.get("content_track") == content_track or content_track == "todos"
+    ]
+    if not books:
+        raise RuntimeError(f"No books found for content track: {content_track}")
+    return books
+
+
 def normalize_whitespace(text: str) -> str:
     text = text.replace("\x00", " ")
     text = re.sub(r"[ \t]+", " ", text)
@@ -179,6 +190,7 @@ def upsert_book(client: Any, book: dict[str, Any], page_count: int) -> dict[str,
         "title": book["title"],
         "author": book.get("author"),
         "category": book.get("category"),
+        "content_track": book.get("content_track") or "todos",
         "file_path": str(Path("Livros") / book["file"]),
         "page_count": page_count,
         "processing_status": "completed",
@@ -206,6 +218,7 @@ def save_lesson(
         "title": str(draft.get("title") or book_record["title"]).strip(),
         "content_markdown": markdown,
         "whatsapp_content": whatsapp,
+        "content_track": book_record.get("content_track") or "todos",
         "word_count": words,
         "estimated_reading_minutes": max(1, round(words / 180)),
         "status": settings.generated_lesson_status,
@@ -238,7 +251,8 @@ def save_lesson(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Process one book PDF into a draft micro-lesson.")
-    parser.add_argument("--slug", required=True, help="Book slug from Livros/metadata.json")
+    parser.add_argument("--slug", help="Book slug from Livros/metadata.json")
+    parser.add_argument("--content-track", help="Process every book from this content track.")
     parser.add_argument("--max-pages", type=int, default=30)
     parser.add_argument("--max-chars", type=int, default=90000)
     parser.add_argument("--dry-run", action="store_true")
@@ -247,7 +261,15 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    book = find_book(args.slug)
+    if not args.slug and not args.content_track:
+        raise RuntimeError("Use --slug or --content-track")
+
+    books = [find_book(args.slug)] if args.slug else find_books_by_track(args.content_track)
+    for book in books:
+        process_book(book, args)
+
+
+def process_book(book: dict[str, Any], args: argparse.Namespace) -> None:
     extracted_text, page_count = extract_pages(BOOKS_DIR / book["file"], args.max_pages, args.max_chars)
     if not extracted_text:
         raise RuntimeError("No text extracted from PDF")
